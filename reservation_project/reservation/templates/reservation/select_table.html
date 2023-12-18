@@ -1,0 +1,11 @@
+<!-- reservation/templates/reservation/select_table.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Выберите дату</h2>
+  <form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Показать столики</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,33 @@
+<!-- reservation/templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% load static %}  <!-- Добавьте эту строку -->
+    <link rel="stylesheet" href="/static/reservation/css/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Reservation Site{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>{% block header %}My Reservation Site{% endblock %}</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'table_list' %}">Tables</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'select_table' %}">Reserve a Table</a></li>
+                <li><a href="{% url 'accounts:user_profile' %}">Profile</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'accounts:signup' %}">Sign Up</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

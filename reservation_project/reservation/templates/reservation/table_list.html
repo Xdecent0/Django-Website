@@ -1,0 +1,27 @@
+<!-- reservation/templates/reservation/table_list.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Доступные столики на {{ date }}</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Номер столика</th>
+        <th>Количество мест</th>
+        <th>Форма</th>
+        <!-- Добавьте другие свойства столика по необходимости -->
+      </tr>
+    </thead>
+    <tbody>
+      {% for table in tables %}
+        <tr>
+          <td><a href="{% url 'reserve_table' table.id %}">{{ table.number }}</a></td>
+          <td>{{ table.seats }}</td>
+          <td>{{ table.shape }}</td>
+          <!-- Добавьте другие свойства столика по необходимости -->
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
