@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    {% load static %}  <!-- Добавьте эту строку -->
+    {% load static %}
     <link rel="stylesheet" href="{% static 'reservation/css/styles.css' %}">
-    <link rel="stylesheet" href="/static/reservation/css/styles.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Reservation Site{% endblock %}</title>
@@ -17,6 +16,7 @@
     </header>
     <nav>
         <ul>
+            <li><a href="{% url 'home' %}">Main</a></li>
             <li><a href="{% url 'table_list' %}">Tables</a></li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'select_table' %}">Reserve a Table</a></li>
@@ -25,12 +25,52 @@
             {% else %}
                 <li><a href="{% url 'login' %}">Login</a></li>
                 <li><a href="{% url 'accounts:signup' %}">Sign Up</a></li>
-
             {% endif %}
         </ul>
     </nav>
     <main>
-        {% block content %}{% endblock %}
+        {% block content %}
+        <h1>Welcome to Our Restaurant</h1>
+            <section id="welcome">
+                <div class="content">
+                    <div class="text">
+                        <h2>Welcome to Culinary Journey</h2>
+                        <p>Indulge in a culinary journey where every dish is a masterpiece. Our chefs blend creativity and tradition to offer you a unique dining experience.</p>
+                    </div>
+                    <img src="{% static 'reservation/images/1.jpg' %}" alt="Welcome Image" width="400" height="400">
+                </div>
+            </section>
+
+            <section id="about-us">
+                <div class="content">
+                    <div class="text">
+                        <h2>About Us</h2>
+                        <p>Established in 2023, our restaurant has become a symbol of exquisite taste and exceptional service. We take pride in sourcing the finest ingredients and crafting dishes that delight the senses.</p>
+                    </div>
+                    <img src="{% static 'reservation/images/2.jpg' %}" alt="About Us Image" width="400" height="400">
+                </div>
+            </section>
+
+            <section id="specialties">
+                <div class="content">
+                    <div class="text">
+                        <h2>Our Specialties</h2>
+                        <p>Explore our menu featuring a diverse range of culinary delights. From signature cocktails to chef's specials, each dish is a celebration of flavor and artistry.</p>
+                    </div>
+                    <img src="{% static 'reservation/images/3.jpg' %}" alt="Our Specialties Image" width="400" height="400">
+                </div>
+            </section>
+
+            <section id="reservation">
+                <div class="content">
+                    <div class="text">
+                        <h2>Reserve a Table</h2>
+                        <p>Make your reservation now to savor an unforgettable dining experience. Whether it's a romantic dinner or a celebration with friends, we ensure every moment is special.</p>
+                    </div>
+                    <img src="{% static 'reservation/images/4.jpg' %}" alt="Reserve a Table Image" width="400" height="400">
+                </div>
+            </section>
+        {% endblock %}
     </main>
 </body>
 </html>
