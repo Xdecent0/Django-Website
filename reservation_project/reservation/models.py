@@ -15,7 +15,7 @@ class Table(models.Model):
     last_reservation_date = models.DateField(null=True, blank=True)
 
     def is_reserved(self, date):
-        return self.last_reservation_date and self.last_reservation_date >= date
+        return self.last_reservation_date and self.last_reservation_date == date
 
 
 class Reservation(models.Model):

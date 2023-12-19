@@ -5,12 +5,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Table, Reservation
 from django.contrib.auth import logout
+from datetime import datetime
 from .forms import ReservationForm
 from django.views.generic import ListView
 from .forms import DateForm
 from django.views import View
 from .models import Category, Dish
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseBadRequest
 from django.urls import reverse
 
 class MenuView(View):
@@ -75,12 +76,14 @@ def register(request):
 def reserve_table(request, table_id):
     table = get_object_or_404(Table, pk=table_id)
     date = request.POST.get('date')
-    table_number = request.POST.get('table_number')
-    table_seats = request.POST.get('table_seats')
 
-    if date and table_number and table_seats:
+    existing_reservation = Reservation.objects.filter(user=request.user, table=table, date=date).exists()
+    if existing_reservation:
+        return HttpResponseBadRequest("You have already reserved this table for the selected date.")
+
+    if date:
         reservation = Reservation.objects.create(user=request.user, table=table, date=date)
-        table.last_reservation_date = date
+        table.last_reservation_date = datetime.strptime(date, '%Y-%m-%d').date()
         table.save()
         return redirect('user_confirm')
 
