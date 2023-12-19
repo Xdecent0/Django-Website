@@ -1,0 +1,15 @@
+<!-- reservation/templates/reservation/user_profile.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Your Reservations</h2>
+  {% if reservations %}
+    <ul>
+      {% for reservation in reservations %}
+        <li><a href="{% url 'user_confirm' reservation.id %}">Reservation {{ reservation.id }}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You have no reservations.</p>
+  {% endif %}
+{% endblock %}

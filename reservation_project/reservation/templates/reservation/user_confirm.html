@@ -1,0 +1,17 @@
+<!-- reservation/templates/reservation/user_confirm.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Reservation Confirmation</h2>
+  {% if reservations %}
+    {% for reservation in reservations %}
+      <div>
+        <p>Date: {{ reservation.date }}</p>
+        <p>Table Number: {{ reservation.table.number }}</p>
+        <p>Seats: {{ reservation.table.seats }}</p>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No active reservations.</p>
+  {% endif %}
+{% endblock %}

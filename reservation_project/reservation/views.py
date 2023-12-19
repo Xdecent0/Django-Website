@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Table, Reservation
@@ -9,6 +10,8 @@ from django.views.generic import ListView
 from .forms import DateForm
 from django.views import View
 from .models import Category, Dish
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 class MenuView(View):
     template_name = 'reservation/menu.html'
@@ -22,13 +25,26 @@ class MenuView(View):
 def home(request):
     return render(request, 'reservation/base.html')
 
-class TableListView(ListView):
-    model = Table
+class TableListView(View):
     template_name = 'reservation/table_list.html'
+
+    def get(self, request, *args, **kwargs):
+        form = DateForm()
+
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = DateForm(request.POST)
+        if form.is_valid():
+            date = form.cleaned_data['date']
+            tables = Table.objects.all()
+            return render(request, self.template_name, {'tables': tables, 'date': date, 'form': form})
+        return render(request, self.template_name, {'form': form})
 
 class AboutView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'reservation/about.html')
+
 
 def select_table(request):
     if request.method == 'POST':
@@ -41,6 +57,8 @@ def select_table(request):
         form = DateForm()
 
     return render(request, 'reservation/select_table.html', {'form': form})
+
+
 
 def register(request):
     if request.method == 'POST':
@@ -55,28 +73,33 @@ def register(request):
 
 @login_required
 def reserve_table(request, table_id):
-    table = Table.objects.get(pk=table_id)
+    table = get_object_or_404(Table, pk=table_id)
+    date = request.POST.get('date')
+    table_number = request.POST.get('table_number')
+    table_seats = request.POST.get('table_seats')
 
-    if request.method == 'POST':
-        form = ReservationForm(request.POST)
-        if form.is_valid():
-            date = form.cleaned_data['date']
+    if date and table_number and table_seats:
+        reservation = Reservation.objects.create(user=request.user, table=table, date=date)
+        table.last_reservation_date = date
+        table.save()
+        return redirect('user_confirm')
 
-            if not Reservation.objects.filter(table=table, date=date).exists():
-                Reservation.objects.create(user=request.user, table=table, date=date)
-                return redirect('profile')
-            else:
-                form.add_error('date', 'Table is already reserved for the selected date.')
-    else:
-        form = ReservationForm()
+    return redirect('select_table')
 
-    return render(request, 'reservation/reserve_table.html', {'table': table, 'form': form})
+
 
 @login_required
 def user_profile(request):
     reservations = Reservation.objects.filter(user=request.user)
-    return render(request, 'reservation/user_confirm.html', {'reservations': reservations})
+    return render(request, 'reservation/user_profile.html', {'reservations': reservations})
+
 
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+@login_required
+def user_confirm(request):
+    reservations = Reservation.objects.filter(user=request.user)
+    return render(request, 'reservation/user_confirm.html', {'reservations': reservations})
+

@@ -1,27 +1,31 @@
-<!-- reservation/templates/reservation/table_list.html -->
-
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Доступные столики на {{ date }}</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Номер столика</th>
-        <th>Количество мест</th>
-        <th>Форма</th>
-        <!-- Добавьте другие свойства столика по необходимости -->
-      </tr>
-    </thead>
-    <tbody>
+  <h2>Choose Reservation Date</h2>
+  <form method="post" id="reservation-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Show Tables</button>
+  </form>
+
+  {% if date %}
+    <h2>Available Tables on {{ date }}</h2>
+    <div id="hall-layout">  
       {% for table in tables %}
-        <tr>
-          <td><a href="{% url 'reserve_table' table.id %}">{{ table.number }}</a></td>
-          <td>{{ table.seats }}</td>
-          <td>{{ table.shape }}</td>
-          <!-- Добавьте другие свойства столика по необходимости -->
-        </tr>
+        {% with is_table_reserved=table.is_reserved date=date %}
+          {% if not is_table_reserved %}
+            <form method="post" action="{% url 'reserve_table' table.id %}" class="reserve-form">
+              {% csrf_token %}
+              <input type="hidden" name="date" value="{{ date|date:'Y-m-d' }}">
+              <input type="hidden" name="table_number" value="{{ table.number }}">
+              <input type="hidden" name="table_seats" value="{{ table.seats }}">
+              <button type="submit" class="reserve-button">
+                Reserve Table {{ table.number }} - {{ table.seats }} seats
+              </button>
+            </form>
+          {% endif %}
+        {% endwith %}
       {% endfor %}
-    </tbody>
-  </table>
+    </div>
+  {% endif %}
 {% endblock %}
