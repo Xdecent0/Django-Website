@@ -59,8 +59,8 @@ def select_table(request):
         form = DateForm(request.POST)
         if form.is_valid():
             date = form.cleaned_data['date']
-            tables = Table.objects.all()
-            return render(request, 'reservation/table_list.html', {'tables': tables, 'date': date, 'form': form})
+            available_tables = Table.objects.filter(last_reservation_date__lt=date)
+            return render(request, 'reservation/table_list.html', {'tables': available_tables, 'date': date, 'form': form})
     else:
         form = DateForm()
 
