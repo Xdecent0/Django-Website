@@ -1,11 +1,16 @@
-<!-- reservation/templates/reservation/select_table.html -->
 {% extends 'base.html' %}
 
 {% block content %}
+  {% if reservation_error %}
+    <h2 style="color: red;">{{ reservation_error }}</h2>
+  {% endif %}
   <h2>Выберите дату</h2>
   <form method="post" action="">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Show Tables</button>
-</form>
+  </form>
+  {% if reservation_error %}
+    <p style="color: red;">Выберите другой столик.</p>
+  {% endif %}
 {% endblock %}

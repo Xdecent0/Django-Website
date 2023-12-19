@@ -2,6 +2,11 @@
 
 {% block content %}
   <h2>Choose Reservation Date</h2>
+
+  {% if form.errors %}
+    <p style="color: red;">{{ form.errors }}</p>
+  {% endif %}
+
   <form method="post" id="reservation-form">
     {% csrf_token %}
     {{ form.as_p }}
@@ -12,16 +17,25 @@
     <h2>Available Tables on {{ date }}</h2>
     <div id="hall-layout">  
       {% for table in tables %}
-      <form method="post" action="{% url 'reserve_table' table.id %}" class="reserve-form">
-        {% csrf_token %}
-        <input type="hidden" name="date" value="{{ date|date:'Y-m-d' }}">
-        <input type="hidden" name="table_number" value="{{ table.number }}">
-        <input type="hidden" name="table_seats" value="{{ table.seats }}">
-        <button type="submit" class="reserve-button">
-          Reserve Table {{ table.number }} with {{ table.seats }} seats
-        </button>
-      </form>
-    {% endfor %}
+        <form method="post" action="{% url 'reserve_table' table.id %}" class="reserve-form">
+          {% csrf_token %}
+          <input type="hidden" name="date" value="{{ date|date:'Y-m-d' }}">
+          <input type="hidden" name="table_number" value="{{ table.number }}">
+          <input type="hidden" name="table_seats" value="{{ table.seats }}">
+          <button type="submit" class="reserve-button" {% if table.is_reserved %}disabled{% endif %}>
+            {% if table.is_reserved %}
+            This table is already reserved. Choose another one!
+            {% else %}
+              Reserve Table {{ table.number }} with {{ table.seats }} seats
+            {% endif %}
+          </button>
+        </form>
+      {% endfor %}
     </div>
+    {% if redirect_url %}
+  <script>
+    window.location.href = "{{ redirect_url }}";
+  </script>
+{% endif %}
   {% endif %}
 {% endblock %}
