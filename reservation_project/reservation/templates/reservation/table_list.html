@@ -12,20 +12,16 @@
     <h2>Available Tables on {{ date }}</h2>
     <div id="hall-layout">  
       {% for table in tables %}
-        {% with is_table_reserved=table.is_reserved date=date %}
-          {% if not is_table_reserved %}
-            <form method="post" action="{% url 'reserve_table' table.id %}" class="reserve-form">
-              {% csrf_token %}
-              <input type="hidden" name="date" value="{{ date|date:'Y-m-d' }}">
-              <input type="hidden" name="table_number" value="{{ table.number }}">
-              <input type="hidden" name="table_seats" value="{{ table.seats }}">
-              <button type="submit" class="reserve-button">
-                Reserve Table {{ table.number }} - {{ table.seats }} seats
-              </button>
-            </form>
-          {% endif %}
-        {% endwith %}
-      {% endfor %}
+      <form method="post" action="{% url 'reserve_table' table.id %}" class="reserve-form">
+        {% csrf_token %}
+        <input type="hidden" name="date" value="{{ date|date:'Y-m-d' }}">
+        <input type="hidden" name="table_number" value="{{ table.number }}">
+        <input type="hidden" name="table_seats" value="{{ table.seats }}">
+        <button type="submit" class="reserve-button">
+          Reserve Table {{ table.number }} with {{ table.seats }} seats
+        </button>
+      </form>
+    {% endfor %}
     </div>
   {% endif %}
 {% endblock %}

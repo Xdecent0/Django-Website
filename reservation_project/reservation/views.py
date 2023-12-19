@@ -1,4 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import OuterRef, Subquery
 from django.contrib.auth import login
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render, redirect
@@ -26,20 +27,24 @@ class MenuView(View):
 def home(request):
     return render(request, 'reservation/base.html')
 
+from django.db.models import OuterRef, Subquery
+
 class TableListView(View):
     template_name = 'reservation/table_list.html'
 
     def get(self, request, *args, **kwargs):
         form = DateForm()
-
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = DateForm(request.POST)
         if form.is_valid():
             date = form.cleaned_data['date']
+            
             tables = Table.objects.all()
+            
             return render(request, self.template_name, {'tables': tables, 'date': date, 'form': form})
+        
         return render(request, self.template_name, {'form': form})
 
 class AboutView(View):
