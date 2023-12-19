@@ -3,6 +3,12 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
+# reservation/models.py
+
+from django.db import models
+from django.contrib.auth.models import User
+from datetime import datetime, timedelta
+
 class Table(models.Model):
     number = models.IntegerField()
     seats = models.IntegerField()
@@ -12,12 +18,15 @@ class Table(models.Model):
     length = models.FloatField()
     x_coordinate = models.FloatField()
     y_coordinate = models.FloatField()
-    last_reservation_date = models.DateField(null=True, blank=True)
 
-    @property
-    def is_reserved(self):
-        today = datetime.now().date()
-        return self.last_reservation_date == today
+    def is_reserved(self, date):
+        reservations_for_date = Reservation.objects.filter(table=self, date=date)
+        return reservations_for_date.exists()
+
+    @staticmethod
+    def get_available_tables(date):
+        reserved_table_ids = Reservation.objects.filter(date=date).values_list('table_id', flat=True)
+        return Table.objects.exclude(id__in=reserved_table_ids)
 
 class Reservation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

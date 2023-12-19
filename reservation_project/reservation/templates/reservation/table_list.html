@@ -1,3 +1,4 @@
+<!-- reservation/templates/reservation/select_table.html -->
 {% extends 'base.html' %}
 
 {% block content %}
@@ -22,20 +23,20 @@
           <input type="hidden" name="date" value="{{ date|date:'Y-m-d' }}">
           <input type="hidden" name="table_number" value="{{ table.number }}">
           <input type="hidden" name="table_seats" value="{{ table.seats }}">
-          <button type="submit" class="reserve-button" {% if table.is_reserved %}disabled{% endif %}>
-            {% if table.is_reserved %}
-            This table is already reserved. Choose another one!
-            {% else %}
+          <button type="submit" class="reserve-button" {% if not table.is_reserved %}{% else %}disabled{% endif %}>
+            {% if not table.is_reserved %}
               Reserve Table {{ table.number }} with {{ table.seats }} seats
+            {% else %}
+              This table is already reserved. Choose another one!
             {% endif %}
           </button>
         </form>
       {% endfor %}
     </div>
     {% if redirect_url %}
-  <script>
-    window.location.href = "{{ redirect_url }}";
-  </script>
-{% endif %}
+      <script>
+        window.location.href = "{{ redirect_url }}";
+      </script>
+    {% endif %}
   {% endif %}
 {% endblock %}

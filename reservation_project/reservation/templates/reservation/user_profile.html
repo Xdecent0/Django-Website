@@ -2,14 +2,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Your Reservations</h2>
+  <h2>Reservation History</h2>
   {% if reservations %}
-    <ul>
-      {% for reservation in reservations %}
-        <li><a href="{% url 'user_confirm' reservation.id %}">Reservation {{ reservation.id }}</a></li>
-      {% endfor %}
-    </ul>
+    {% for reservation in reservations %}
+      <div>
+        <p>Date: {{ reservation.date }}</p>
+        <p>Table Number: {{ reservation.table.number }}</p>
+        <p>Seats: {{ reservation.table.seats }}</p>
+      </div>
+    {% endfor %}
   {% else %}
-    <p>You have no reservations.</p>
+    <p>No reservation history.</p>
   {% endif %}
 {% endblock %}
