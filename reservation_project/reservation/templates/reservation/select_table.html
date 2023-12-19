@@ -3,6 +3,7 @@
 {% block content %}
   {% if reservation_error %}
     <h2 style="color: red;">{{ reservation_error }}</h2>
+    <p style="color: red;">Choose different table.</p>
   {% endif %}
   <h2>Выберите дату</h2>
   <form method="post" action="">
@@ -10,7 +11,4 @@
     {{ form.as_p }}
     <button type="submit">Show Tables</button>
   </form>
-  {% if reservation_error %}
-    <p style="color: red;">Выберите другой столик.</p>
-  {% endif %}
 {% endblock %}
