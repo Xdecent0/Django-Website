@@ -75,7 +75,7 @@ def reserve_table(request, table_id):
 @login_required
 def user_profile(request):
     reservations = Reservation.objects.filter(user=request.user)
-    return render(request, 'accounts/user_profile.html', {'reservations': reservations})
+    return render(request, 'reservation/user_confirm.html', {'reservations': reservations})
 
 def logout_view(request):
     logout(request)

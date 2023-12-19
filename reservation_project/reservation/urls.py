@@ -6,6 +6,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', home, name='home'),
     # path('tables/', TableListView.as_view(), name='table_list'),
+    # path('user_confirm/', user_confirm, name='user_confirm'),
     path('about/', AboutView.as_view(), name='about'),
     path('menu/', MenuView.as_view(), name='menu'),
     path('reserve/', select_table, name='select_table'),
