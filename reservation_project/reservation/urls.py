@@ -1,11 +1,13 @@
 # reservation/urls.py
 from django.urls import path
-from .views import home, TableListView, reserve_table, user_profile, select_table, register, logout_view
+from .views import home, MenuView, TableListView, AboutView, reserve_table, user_profile, select_table, register, logout_view
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', home, name='home'),
-    path('tables/', TableListView.as_view(), name='table_list'),
+    # path('tables/', TableListView.as_view(), name='table_list'),
+    path('about/', AboutView.as_view(), name='about'),
+    path('menu/', MenuView.as_view(), name='menu'),
     path('reserve/', select_table, name='select_table'),
     path('reserve/<int:table_id>/', reserve_table, name='reserve_table'),
     path('profile/', user_profile, name='profile'),

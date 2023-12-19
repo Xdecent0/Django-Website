@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/reservation/css/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Reservation Site{% endblock %}</title>
@@ -16,7 +17,8 @@
     <nav>
         <ul>
             <li><a href="{% url 'home' %}">Main</a></li>
-            <li><a href="{% url 'table_list' %}">Tables</a></li>
+            <li><a href="{% url 'menu' %}">Menu</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'select_table' %}">Reserve a Table</a></li>
                 <li><a href="{% url 'accounts:user_profile' %}">Profile</a></li>

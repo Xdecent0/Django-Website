@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>About Us</h1>
+    <div class="about-section">
+        <img src="{% static 'reservation/images/3.jpg' %}" alt="Welcome Image" width="400" height="400" class="about__img">
+        <p class="about__text">
+            Welcome to Culinary Journey, where every meal is a celebration of flavors and traditions. 
+            Established in [year], our restaurant has become a symbol of exquisite taste and exceptional service.
+            At Culinary Journey, we take pride in sourcing the finest ingredients to craft dishes that not only delight the senses but also tell a story. 
+            Our chefs blend creativity with tradition, offering you a unique and memorable dining experience.
+        </p>
+    </div>
+
+    <div class="location-section">
+        <h2>Where You Can Find Us:</h2>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30161.35373531082!2d-74.02672152028799!3d40.71851043172058!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a10ea3a7b65%3A0xfc9469329c17318b!2sSchilling%20Restaurant%20%26%20Bar!5e0!3m2!1suk!2sua!4v1702961346799!5m2!1suk!2sua" 
+        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+{% endblock %}

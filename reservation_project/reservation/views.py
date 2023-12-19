@@ -7,6 +7,17 @@ from django.contrib.auth import logout
 from .forms import ReservationForm
 from django.views.generic import ListView
 from .forms import DateForm
+from django.views import View
+from .models import Category, Dish
+
+class MenuView(View):
+    template_name = 'reservation/menu.html'
+
+    def get(self, request, *args, **kwargs):
+        categories = Category.objects.all()
+        dishes = Dish.objects.all()
+        context = {'categories': categories, 'dishes': dishes}
+        return render(request, self.template_name, context)
 
 def home(request):
     return render(request, 'reservation/base.html')
@@ -14,6 +25,10 @@ def home(request):
 class TableListView(ListView):
     model = Table
     template_name = 'reservation/table_list.html'
+
+class AboutView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'reservation/about.html')
 
 def select_table(request):
     if request.method == 'POST':

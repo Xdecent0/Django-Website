@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'reservation/css/styles.css' %}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +18,8 @@
     <nav>
         <ul>
             <li><a href="{% url 'home' %}">Main</a></li>
-            <li><a href="{% url 'table_list' %}">Tables</a></li>
+            <li><a href="{% url 'menu' %}">Menu</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'select_table' %}">Reserve a Table</a></li>
                 <li><a href="{% url 'accounts:user_profile' %}">Profile</a></li>
@@ -31,7 +33,7 @@
     <main>
         {% block content %}
         <h1>Welcome to Our Restaurant</h1>
-            <section id="welcome">
+            <section id="welcome" class="section">
                 <div class="content">
                     <div class="text">
                         <h2>Welcome to Culinary Journey</h2>
@@ -41,33 +43,34 @@
                 </div>
             </section>
 
-            <section id="about-us">
+            <section id="about-us" class="section">
                 <div class="content">
                     <div class="text">
-                        <h2>About Us</h2>
-                        <p>Established in 2023, our restaurant has become a symbol of exquisite taste and exceptional service. We take pride in sourcing the finest ingredients and crafting dishes that delight the senses.</p>
+                        <h2>Explore The Menu</h2>
+                        <p>Explore the latest additions to our menu, crafted with passion and precision. Each dish is a fusion of flavors that promises to delight your taste buds.</p>
+                        <!-- <p>Established in 2023, our restaurant has become a symbol of exquisite taste and exceptional service. We take pride in sourcing the finest ingredients and crafting dishes that delight the senses.</p> -->
                     </div>
                     <img src="{% static 'reservation/images/2.jpg' %}" alt="About Us Image" width="400" height="400">
                 </div>
             </section>
 
-            <section id="specialties">
+            <section id="specialties" class="section">
                 <div class="content">
                     <div class="text">
                         <h2>Our Specialties</h2>
                         <p>Explore our menu featuring a diverse range of culinary delights. From signature cocktails to chef's specials, each dish is a celebration of flavor and artistry.</p>
                     </div>
-                    <img src="{% static 'reservation/images/3.jpg' %}" alt="Our Specialties Image" width="400" height="400">
+                    <img src="{% static 'reservation/images/5.jpg' %}" alt="Our Specialties Image" width="400" height="400">
                 </div>
             </section>
 
-            <section id="reservation">
+            <section id="reservation" class="section">
                 <div class="content">
                     <div class="text">
                         <h2>Reserve a Table</h2>
                         <p>Make your reservation now to savor an unforgettable dining experience. Whether it's a romantic dinner or a celebration with friends, we ensure every moment is special.</p>
                     </div>
-                    <img src="{% static 'reservation/images/4.jpg' %}" alt="Reserve a Table Image" width="400" height="400">
+                    <img src="{% static 'reservation/images/6.jpg' %}" alt="Reserve a Table Image" width="400" height="400">
                 </div>
             </section>
         {% endblock %}
